@@ -1,0 +1,23 @@
+<%= form_tag({ :action => 'create' }) do %>
+	<div class="field">
+		<%= label :book, :isbn %><br />
+		<%= text_filed :book, :isbn, { :size => 25 } %>
+	</div>
+	<div class="field">
+		<%= label :book, :title %><br />
+		<%= text_filed :book, :title, { :size => 25 } %>
+	</div>
+<% end %>
+<%= form_for(@book) do |f| %>
+	<div class="field">
+		<%= f.label :isbn %><br />
+		<%= f.text_filed :isbn, { :size => 25 } %>
+	</div>
+	<div class="field">
+		<%= f.label :title %><br />
+		<%= f.text_filed :title, { :size => 25 } %>
+	</div>
+	<div class="actions">
+		<%= f.submit %>
+	</div>
+<% end %>

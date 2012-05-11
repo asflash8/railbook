@@ -1,0 +1,8 @@
+<ul>
+	<li>username:<%= @user.username %></li>
+	<li>password:<%= @user.password %></li>
+<% unless @user.author.nil? %>
+	<li>author:<%= @user.author.name %></li>
+	<li>address:<%= @user.author.address %></li>
+<% end %>
+</ul>
