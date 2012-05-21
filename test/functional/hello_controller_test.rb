@@ -1,19 +1,14 @@
 require 'test_helper'
 
 class HelloControllerTest < ActionController::TestCase
-  test "should get list" do
+  test "list action" do
     get :list
-    assert_response :success
+    assert_equal 10, assigns(:books).length, 'found rows is wrong.'
+    assert_response :success, 'list action failed.'
+    assert_template 'hello/list'
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-  end
-
-  test "should get view" do
-    get :view
-    assert_response :success
-  end
-
+	test "routing check" do
+		assert_generates('hello/list', { :controller => :hello, :action => :list })
+	end
 end

@@ -1,17 +1,56 @@
+require 'time_constraint'
+
 Railbook::Application.routes.draw do
+
+	root :to => 'books#index'
+
   resources :members
 
-  resources :fun_comments
+  resources :fun_comments, :path_names => { :new => 'insert', :edit => 'revise' }
 
-  resources :reviews
+  resources :reviews do
+		collection do
+			get 'unapproval'
+		end
+		member do
+			get 'draft'
+		end
+	end
 
   resources :authors
 
-  resources :users
+  resources :users, :only => ['index', 'new', 'create', 'edit', 'update']
 
-  resources :books
+	namespace 'admin' do
+		resources :books, :constraints => TimeConstraint.new
+	end
 
-  #get "hello/list"
+	resource :cofing
+
+	resources :books do
+		resources :reviews
+	end
+
+	match '/blogs/:user_id' => 'blogs#index'
+
+	match 'hello/view'
+
+	match 'hello/view', :via => :get
+
+	match '/articles(/:category)' => 'articles#index', :defaults => { :category => 'general', :format => 'xml' }
+
+	match '/blogs/:user_id' => 'blogs#index', :constrains => { :user_id => /[A-Za-z0-9]{3,7}/ }
+
+	match ':controller(/:action(:id))', :controller => /common\/[^\/]+/
+
+	match 'articles' => 'main#index'
+
+	match 'articles/*category/:id' => 'articles#category'
+
+	match '/books/:id' => redirect('/martciles/%{id}/')
+
+	match '/books/:id' => redirect{|p, req| "/articles/#{p[:id].to_i + 10000}"}
+	#get "hello/list"
 
   #get "hello/index"
 
